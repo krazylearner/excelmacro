@@ -5,7 +5,7 @@ Sub SearchForString()
      Dim myValue As Variant
      Dim sheetName As Variant
      sheetName = "Balance Sheet"
-     myValue = InputBox("Give me some input")
+     myValue = InputBox("Enter client name.")
     
     On Error GoTo Err_Execute
     

@@ -2,10 +2,11 @@ Sub SearchForString()
 
     Dim LSearchRow As Integer
     Dim LCopyToRow As Integer
-     Dim myValue As Variant
-     Dim sheetName As Variant
-     sheetName = "Balance Sheet"
-     myValue = InputBox("Enter client name.")
+    Dim myValue As Variant
+    Dim sheetName As Variant
+    
+    sheetName = "Balance Sheet"
+    myValue = InputBox("Give me some input")
     
     On Error GoTo Err_Execute
     
@@ -14,6 +15,11 @@ Sub SearchForString()
     
     'Start copying data to row 2 in sheetName (row counter variable)
     LCopyToRow = 2
+    
+    
+    'clear clear the contents of an entire sheet 'sheetName'
+     
+    Sheets(sheetName).Cells.ClearContents
     
     While Len(Range("A" & CStr(LSearchRow)).Value) > 0
         
@@ -41,16 +47,20 @@ Sub SearchForString()
         
     Wend
     
+    
+    'code for Sum total of column
+    
+    
+    
     'Position on cell A3
     Application.CutCopyMode = False
     Range("A3").Select
     
+    'MsgBox (sum2 - sum1)
     MsgBox "All matching data has been copied."
     
-    Exit Sub
     
 Err_Execute:
     MsgBox "An error occurred."
     
 End Sub
-

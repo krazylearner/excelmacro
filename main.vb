@@ -9,6 +9,9 @@ Sub SearchForString()
     
     On Error GoTo Err_Execute
     
+     'clear clear the contents of an entire sheet 'sheetName'
+    Sheets(sheetName).Cells.ClearContents
+    
     'Start search in row 4
     LSearchRow = 4
     

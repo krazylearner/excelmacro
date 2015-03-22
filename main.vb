@@ -106,7 +106,10 @@ End Sub
 
 Sub calculateBalance()
     
-    ' Total sum of column C - total sum of column D in Balance sheet
+    ' Putting string 'Balance' in cell H11
+     Excel.Sheets("Balance Sheet").Range("H11").Value = "Balance"
+     
+     ' Total sum of column C - total sum of column D in Balance sheet
      Excel.Sheets("Balance Sheet").Range("I11").Formula = "=Sum(C:C)-Sum(D:D)"
      
 End Sub

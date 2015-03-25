@@ -232,7 +232,7 @@ var mode2Handler = function(request,response){
 		// continue mapping requests to global session variable	
 		mode1Handler(request,response)
 	}
-}
+};
 
 /*
 * var mode4Handler = function(request,response){}
@@ -247,7 +247,7 @@ var defaultModeHandler = function(request,response){
 	options.method             = request.method,
 	options.rejectUnauthorized = false,
 	forwardFriendly(request,response,options);
-}
+};
 
 /*
  *
@@ -319,19 +319,17 @@ var RouteServer = function() {
  */
 var ForwardingProxy = function() {
 	this.routeServer = new RouteServer();
-	
 	var self = this;
-
-	// Load our trampoline, it's part of the proxy process.
+        // Load our trampoline, it's part of the proxy process.
 	index("static/index.html", function(err, data) {
 		if(err) {
 			//cb(null, err);
 			return;
 		}
-	//this.port = port;
-	//this.routeHandler = routeHandler
+		//this.port = port;
+		//this.routeHandler = routeHandler
 		console.log("index file read: " + data.length + " bytes");
-		 globalConfigure(); 
+		globalConfigure(); 
 		http.createServer(self.routeServer.simpleServer).listen(port, function() {
 			console.log("started local server: http://localhost:"+port);
 			console.log("Proxy listener engaged...");
@@ -339,6 +337,6 @@ var ForwardingProxy = function() {
 		});
 	});
 
-}
+};
 
- new ForwardingProxy();
+new ForwardingProxy();

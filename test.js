@@ -152,38 +152,39 @@ var mode0Handler = function(request,response,argv){
 	}
 }
 
-// Handler for --mode 1
+/*
+ * Handler for --mode 1
+ *
+ */
 var mode1Handler = function(request,response){
-
-//currentToken = session['currentSession'];
-var options ={};
-
-if (currentToken == ''){
-options = {
-url:baseHost+request.url,
-method:request.method,
-"rejectUnauthorized":false,
-};
-// map first request to session variable and store it in global session variable
-request.pipe(outbound(options)).on('response',function(result){
-currentToken = result.headers['set-cookie'].toString().split(' ')[0];
-//console.log(currentToken.toString().split(' '));
-console.log("mapped to : 1 " + currentToken);
-}).pipe(response);
-}
-// map all requests to global session variable
-else{
-//currentToken = "cookie";
-var headers ={'Cookie':currentToken};
-options ={
-url:baseHost+request.url,
-method:request.method,
-"rejectUnauthorized":false,
-headers:headers
-};
-console.log("mapped to : 2 " + currentToken);
-forwardFriendly(request,response,options);
-}
+	//currentToken = session['currentSession'];
+	var options ={};
+	if (currentToken == ''){
+		options = {
+	        		url:baseHost+request.url,
+			   	method:request.method,
+				"rejectUnauthorized":false,
+			};
+		// map first request to session variable and store it in global session variable
+		request.pipe(outbound(options)).on('response',function(result){
+			currentToken = result.headers['set-cookie'].toString().split(' ')[0];
+			//console.log(currentToken.toString().split(' '));
+			console.log("mapped to : 1 " + currentToken);
+		}).pipe(response);
+	}
+	// map all requests to global session variable
+	else{
+		//currentToken = "cookie";
+		var headers = {'Cookie':currentToken};
+		options ={
+				url:baseHost+request.url,
+				method:request.method,
+				"rejectUnauthorized":false,
+				headers:headers
+			};
+		console.log("mapped to : 2 " + currentToken);
+		forwardFriendly(request,response,options);
+	}
 }
 
 //handler --mode 2

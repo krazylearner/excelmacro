@@ -187,62 +187,60 @@ var mode1Handler = function(request,response){
 	}
 }
 
-//handler --mode 2
+/*
+ *
+ * handler --mode 2
+ */
 var mode2Handler = function(request,response){
-//currentToken = createCookie();
-var dataString='';
-var postDataObject;
-var options ={};
-
-
-if (request.url.substr(0,10) == '/set_files'){
-
-// check if user wants to create new share or trying to update old share
-
-request.on('data',function(data){
-dataString = dataString+data.toString();
-});
-
-request.on('end',function(){
-
-postDataObject= qs.parse(dataString);
-
-     // add post data to options object
-    options.uri=baseHost + request.url;  // remote url to request 
-    options.method=request.method;    // request method
-    options.rejectUnauthorized=false; 
-// get a new session token on semtpy set_files request and set it global session variable currentToken
-if (postDataObject.shareId=='' || typeof postDataObject.shareId == 'undefined'){
-var responseObject='';
-console.log('creating new share from scratch.This session id will now be used for all transactions until new share is not created');
-postDataObject.shareId = '' 
-// preparing options object 
-options.form = postDataObject; // add post data to options object
-//options.headers = {"Cookie":currentToken};  // add headers to --token CLI argument
-typeof request.headers['Cookie'] == 'undefined' ? '' : delete request.headers['cookie'] ;
-console.log(options);
-request.pipe(outbound(options)).on('response',function(result){
-currentToken = result.headers['set-cookie'].toString().split(' ')[0];
-}).pipe(response); // forward it to remote host
+	//currentToken = createCookie();
+	var dataString='';
+	var postDataObject;
+	var options ={};
+	if (request.url.substr(0,10) == '/set_files'){
+		// check if user wants to create new share or trying to update old share
+		request.on('data',function(data){
+			dataString = dataString+data.toString();
+		});
+		request.on('end',function(){
+			postDataObject= qs.parse(dataString);
+			// add post data to options object
+    			options.uri=baseHost + request.url;  // remote url to request 
+    			options.method=request.method;    // request method
+    			options.rejectUnauthorized=false; 
+			// get a new session token on semtpy set_files request and set it global session variable currentToken
+			if (postDataObject.shareId=='' || typeof postDataObject.shareId == 'undefined'){
+				var responseObject='';
+				console.log('creating new share from scratch.This session id will now be used for all transactions until new share is not created');
+				postDataObject.shareId = '' 
+				// preparing options object 
+				options.form = postDataObject; // add post data to options object
+				//options.headers = {"Cookie":currentToken};  // add headers to --token CLI argument
+				typeof request.headers['Cookie'] == 'undefined' ? '' : delete request.headers['cookie'] ;
+                                console.log(options);
+				request.pipe(outbound(options)).on('response',function(result){
+					currentToken = result.headers['set-cookie'].toString().split(' ')[0];
+				}).pipe(response); // forward it to remote host
+			}
+			else{
+				options.form = postDataObject;
+    				options.headers = {'Cookie':currentToken};	
+				forwardFriendly(request,response,options)
+			}
+		});
+	}
+	else{
+		// continue mapping requests to global session variable	
+		mode1Handler(request,response)
+	}
 }
-else{
-	
-	options.form = postDataObject;
-    options.headers = {'Cookie':currentToken};	
-	forwardFriendly(request,response,options)}});
-}
-else{
-// continue mapping requests to global session variable	
-mode1Handler(request,response)
-}}
-
-
 
 /*
-var mode4Handler = function(request,response){}
+* var mode4Handler = function(request,response){}
 */
 
-// default mode handler == --mode 0 .This handles request when no mode is provided 
+/*
+ * default mode handler == --mode 0 .This handles request when no mode is provided 
+ */
 var defaultModeHandler = function(request,response){
 var options = {};
 options.uri=baseHost + request.url;

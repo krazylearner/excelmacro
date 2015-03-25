@@ -7,31 +7,39 @@
  * It will also act as a server, in the absence of an endpoint.
  *
  */
+ 
+// Favored utility libraries.
 var cli = require('minimist');
 var http = require('http');
-var fs = require('fs');
 var outbound = require('request');
-// NOTES: Getting more complicated; used for /json pubsub onion service.
 var url = require('url');
 var qs = require('querystring');
-var stream = require('event-stream');
 // Watch a file for changes to the local file, otherwise keep it in memory.
 var index = require('./util/watchfile');
 
+/*
+* Global Variables used by 
+* many modules
+*
+*/
 var baseHost;
 var port;
 var shareId = '';
 var currentToken = '';
 
-// CLI arguments handler 
+/*
+* Command line arguments 
+* handler
+*
+*/
 var globalConfigure = function(request,response){
-var argv = cli(process.argv.slice(2));
-//command line arguments are contained in argv object
-// FIXME : code will break if --forward=inavlidvalue example number
-baseHost = ('forward' in argv) ? argv['forward'] : "https://folders.io";
-//FIXME : code will break if --port=invalidvalue example string
-port =('listen' in argv) ? argv['listen'] :8090;
-return  (argv);
+	//command line arguments are contained in argv object
+	var argv = cli(process.argv.slice(2));
+	// FIXME : code will break if --forward=inavlidvalue example number
+	baseHost = ('forward' in argv) ? argv['forward'] : "https://folders.io";
+	//FIXME : code will break if --port=invalidvalue example string
+	port =('listen' in argv) ? argv['listen'] :8090;
+	return  (argv);
 }
 
 

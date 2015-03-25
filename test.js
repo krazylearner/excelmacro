@@ -242,13 +242,16 @@ var mode2Handler = function(request,response){
  * default mode handler == --mode 0 .This handles request when no mode is provided 
  */
 var defaultModeHandler = function(request,response){
-var options = {};
-options.uri=baseHost + request.url;
-options.method=request.method,
-options.rejectUnauthorized=false,
-forwardFriendly(request,response,options);
+	var options = {};
+	options.uri                = baseHost + request.url;
+	options.method             = request.method,
+	options.rejectUnauthorized = false,
+	forwardFriendly(request,response,options);
 }
 
+/*
+ *
+ */
 var defaultFriendly = function(request, response) {
 	index("static/index.html", function(err, data) {
 		response.setHeader("Content-Type", "text/html");
@@ -258,78 +261,63 @@ var defaultFriendly = function(request, response) {
 };
 
 var RouteServer = function() {
-//	this.routeHandler = routeHandler;
-	var self = this;
-    
- var argv  = globalConfigure();
-
-
-switch (argv['mode']){
- case 0:
- console.log("Proxy Server Running In Mode : 0");
- console.log("All shareids and session tokens supplied in requests will be ignored");
- break;
- case 1:
- console.log("Proxy Server Running In Mode : 1");
- console.log('All session tokens supplied  in requests will be ignored ');
- break;
- case 2:
- console.log("Proxy Server Running In Mode : 2");
- break;
- case 3: 
- // No handler for mode 3 now . Using default mode
- default:
- console.log("Proxy Server Running In Default Mode");
- }  	
-	
-var simpleServer = function(request,response) {
-   
-	// Allow a CORS
-	var origin = "http://localhost:8000";
-	corsFriendly(response, origin);
-	if(request.method == "OPTIONS") {
-		response.end();
-		return;
-	}
-	
-	
-
-// NOTES: restHandler will handle requests internally, the subsequent methods simply proxy requests to another server.
-
-// URL to Action:
-	if(request.method == "GET" || request.method == "POST") {
-
-// FIXME: These are still tuned to having one active shareId; the initial point of this proxy.
-// Scope has increased to handling multiple active shareId
-var uri = request.url;
-	console.log( "forwarding " + uri+" ---> " + baseHost+uri );
+	var self  = this;
+        var argv  = globalConfigure();
 	switch (argv['mode']){
- case 0:
- mode0Handler(request,response,argv);
- break;
- case 1:
- mode1Handler(request,response); 
- break;
- case 2:
- mode2Handler(request,response);
- break;
- case 3: 
- default:
- defaultModeHandler(request,response);
- }    
-    
-		return;
-	}
-
+ 		case 0:
+ 			console.log("Proxy Server Running In Mode : 0");
+ 			console.log("All shareids and session tokens supplied in requests will be ignored");
+ 			break;
+ 		case 1:
+ 			console.log("Proxy Server Running In Mode : 1");
+ 			console.log('All session tokens supplied  in requests will be ignored ');
+ 			break;
+ 		case 2:
+ 			console.log("Proxy Server Running In Mode : 2");
+ 			break;
+ 		case 3: 
+ 			// No handler for mode 3 now . Using default mode
+ 		default:
+ 			console.log("Proxy Server Running In Default Mode");
+ 	}  	
+	var simpleServer = function(request,response) {
+   		// Allow a CORS
+		var origin = "http://localhost:8000";
+		corsFriendly(response, origin);
+		if(request.method == "OPTIONS") {
+			response.end();
+			return;
+		}
 	
-
+	// URL to Action:
+	if(request.method == "GET" || request.method == "POST") {
+		var uri = request.url;
+		console.log( "forwarding " + uri+" ---> " + baseHost+uri );
+		switch (argv['mode']){
+ 			case 0:
+				 mode0Handler(request,response,argv);
+ 				 break;
+ 			case 1:
+ 				 mode1Handler(request,response); 
+ 				break;
+ 			case 2:
+				 mode2Handler(request,response);
+ 				 break;
+ 			case 3: 
+ 			default:
+ 				defaultModeHandler(request,response);
+ 		}    
+                return;
+	}
 	defaultFriendly(request, response);
-};
+	};
 	this.simpleServer = simpleServer;
-    
 };
 
-var ForwardingProxy = function() {;
+/*
+ *
+ */
+var ForwardingProxy = function() {
 	this.routeServer = new RouteServer();
 	
 	var self = this;

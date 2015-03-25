@@ -9,7 +9,7 @@
  */
  
 // Favored utility libraries.
-var cli = require('minimist');
+var cli  = require('minimist');
 var http = require('http');
 var outbound = require('request');
 var url = require('url');
@@ -38,7 +38,7 @@ var globalConfigure = function(request,response){
 	// FIXME : code will break if --forward=inavlidvalue example number
 	baseHost = ('forward' in argv) ? argv['forward'] : "https://folders.io";
 	//FIXME : code will break if --port=invalidvalue example string
-	port =('listen' in argv) ? argv['listen'] :8090;
+	port     = ('listen' in argv) ? argv['listen'] :8090;
 	return  (argv);
 };
 
@@ -78,11 +78,11 @@ var mode0Handler = function(request,response,argv){
 	// variable shareId to hold --shareid CLI argument
 	shareId = argv['shareid']
 	// variable currentoken to hold --token CLI argument (cookie)
-	currentToken = argv['token']
+	currentToken  = argv['token']
 	var urlObject = url.parse(request.url,true);
 	console.log(urlObject);
 	var newurl;
-	var options={};
+	var options = {};
 	// proxy '/set_files' request 
  	if (request.url.substr(0,10) == '/set_files'){
 		if (typeof shareId == 'undefined' || shareId.length < 1 ){
@@ -94,20 +94,20 @@ var mode0Handler = function(request,response,argv){
 			process.exit(1);
 		}
 		newurl = '/set_files';
-		var datastring="";  // var to hold post data
-		var postDataObject;  // object to hold post data
+		var datastring = "" ;  // var to hold post data
+		var postDataObject ;  // object to hold post data
 		// accumulating post data into string
 		request.on('data',function(data){
-			datastring+=data.toString();
+			datastring += data.toString();
 		});
 		request.on('end',function(){
-			postDataObject= qs.parse(datastring); // convert post data string into object 
+			postDataObject = qs.parse(datastring); // convert post data string into object 
 			postDataObject.shareId = shareId; // set shareId to CLI --shareid argument
 			// preparing options object 
-			options.form = postDataObject; // add post data to options object
-			options.uri=baseHost + newurl;  // remote url to request 
+			options.form   = postDataObject; // add post data to options object
+			options.uri    = baseHost + newurl;  // remote url to request 
 			options.method = 'POST';    // request method
-			options.rejectUnauthorized=false;  // workaround for ssl certificate issue 
+			options.rejectUnauthorized = false;  // workaround for ssl certificate issue 
 			options.headers = {"Cookie":currentToken};  // add headers to --token CLI argument
 			console.log(options);
 			forwardFriendly(request,response,options); // forward it to remote host
@@ -145,9 +145,9 @@ var mode0Handler = function(request,response,argv){
 			// all other cases which do not require shareId ex /file/ ,/press
 			newurl = request.url;
 		}
-		options.uri=baseHost + newurl;
-		options.method=request.method,
-		options.rejectUnauthorized=false,
+		options.uri                = baseHost + newurl;
+		options.method             = request.method,
+		options.rejectUnauthorized = false,
 		forwardFriendly(request,response,options);
 	}
 }
@@ -158,7 +158,7 @@ var mode0Handler = function(request,response,argv){
  */
 var mode1Handler = function(request,response){
 	//currentToken = session['currentSession'];
-	var options ={};
+	var options = {};
 	if (currentToken == ''){
 		options = {
 	        		url:baseHost+request.url,
@@ -176,7 +176,7 @@ var mode1Handler = function(request,response){
 	else{
 		//currentToken = "cookie";
 		var headers = {'Cookie':currentToken};
-		options ={
+		options = {
 				url:baseHost+request.url,
 				method:request.method,
 				"rejectUnauthorized":false,
@@ -195,7 +195,7 @@ var mode2Handler = function(request,response){
 	//currentToken = createCookie();
 	var dataString='';
 	var postDataObject;
-	var options ={};
+	var options = {};
 	if (request.url.substr(0,10) == '/set_files'){
 		// check if user wants to create new share or trying to update old share
 		request.on('data',function(data){
@@ -222,7 +222,7 @@ var mode2Handler = function(request,response){
 				}).pipe(response); // forward it to remote host
 			}
 			else{
-				options.form = postDataObject;
+				options.form    = postDataObject;
     				options.headers = {'Cookie':currentToken};	
 				forwardFriendly(request,response,options)
 			}
@@ -242,7 +242,7 @@ var mode2Handler = function(request,response){
  * default mode handler == --mode 0 .This handles request when no mode is provided 
  */
 var defaultModeHandler = function(request,response){
-	var options = {};
+	var options                = {};
 	options.uri                = baseHost + request.url;
 	options.method             = request.method,
 	options.rejectUnauthorized = false,
@@ -260,7 +260,7 @@ var defaultFriendly = function(request, response) {
 	});
 };
 
-var RouteServer = function() {
+var RouteServer   = function() {
 	var self  = this;
         var argv  = globalConfigure();
 	switch (argv['mode']){
@@ -319,7 +319,7 @@ var RouteServer = function() {
  */
 var ForwardingProxy = function() {
 	this.routeServer = new RouteServer();
-	var self = this;
+	var self         = this;
         // Load our trampoline, it's part of the proxy process.
 	index("static/index.html", function(err, data) {
 		if(err) {

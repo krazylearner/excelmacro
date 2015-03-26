@@ -71,6 +71,18 @@ var corsFriendly = function(response, origin) {
 };
 
 /*
+ *
+ *
+ */
+var isStringEmpty = function(string){
+	if((typeof string == 'undefined' || string.length < 1 ) ){ 
+		console.log('Wrong configuration during start up :');
+ 		process.exit(1);
+	}		
+};
+
+
+/*
  * Core Request & Response 
  * forwarder
  *
@@ -88,21 +100,13 @@ var forwardFriendly  = function(request ,response,options){
  *
  */
 var mode0Handler = function(request,response){
-	var urlObject = url.parse(request.url,true);
 	var newurl;
-	var options = {};
+	var options = {rejectUnauthorized:false};
 	// proxy '/set_files' request 
  	if (request.url.substr(0,10) == '/set_files'){
-		if (typeof shareId == 'undefined' || shareId.length < 1 ){
-			console.log('Wrong configuration during start up :');
- 			process.exit(1);
-		}
-		if (typeof currentToken == 'undefined' || currentToken.length < 1){
-			console.log('Wrong configuration during start up :') ;
-			process.exit(1);
-		}
+		isStringEmpty(shareId);
+		isStringEmpty(currentToken);
 		newurl = '/set_files';
-		
 		var postData = "" // object to hold post data
 		// accumulating post data into string
 		request.on('data',function(data){
@@ -114,7 +118,6 @@ var mode0Handler = function(request,response){
 			// preparing options object 
 			options.form   = postData; // add post data to options object
 			options.uri    = baseHost + newurl;  // remote url to request 
-			options.rejectUnauthorized = false;  // workaround for ssl certificate issue 
 			options.headers = {"Cookie":currentToken};  // add headers to --token CLI argument
 			console.log(options);
 			forwardFriendly(request,response,options); // forward it to remote host
@@ -128,23 +131,13 @@ var mode0Handler = function(request,response){
 		}
 		// reconstructing '/get_share' request url
 		if (request.url.substr(0,10) == '/get_share'){
-			if (typeof shareId == 'undefined' || shareId.length < 1 ){
-				console.log('Wrong configuration during start up :');
-				process.exit(1);
-			}
-			newurl =  '/get_share?shareId='+shareId; // 
-			newurl += '&offline='+ ((typeof urlObject['query']['offline'] == 'undefined') || (urlObject['query']['offline'] == "") ? 0:urlObject['query']['offline'])
-			newurl += '&parent='+ ((typeof urlObject['query']['parent'] == 'undefined') || (urlObject['query']['parent'] == "" )? 0:urlObject['query']['parent']);
-			newurl += (typeof urlObject['query']['gw'] == 'undefined') || (urlObject['query']['gw'] == "" )? "":'&gw=' + urlObject['query']['gw'];
-			newurl += (typeof urlObject['query']['_'] == 'undefined') || (urlObject['query']['_'] == "" )? "":'&_=' + urlObject['query']['_'];
+			isStringEmpty(shareId);
+			newurl =  '/get_share?shareId='+shareId + '&offline=0&parent=0'
 			console.log(newurl);
 		}	
 		// reconstructing /dir/ request url
 		else if (request.url.substr(0,5) == '/dir/'){
-			if (typeof shareId == 'undefined' || shareId.length < 1 ){
-				console.log('Wrong configuration during start up :');
- 				process.exit(1);
-			}
+			isStringEmpty(shareId)
 			newurl = '/dir/'
 			newurl += shareId; // adding -shareid CLI argument to this request
 		}
@@ -152,8 +145,7 @@ var mode0Handler = function(request,response){
 			// all other cases which do not require shareId ex /file/ ,/press
 			newurl = request.url;
 		}
-		options.uri                = baseHost + newurl;
-		options.rejectUnauthorized = false,
+		options.uri = baseHost + newurl;
 		forwardFriendly(request,response,options);
 	}
 }
@@ -164,28 +156,21 @@ var mode0Handler = function(request,response){
  */
 var mode1Handler = function(request,response){
 	//currentToken = session['currentSession'];
-	var options = {};
-	if (currentToken == ''){
-		options = {
+	var options = {
 	        		url:baseHost+request.url,
 					"rejectUnauthorized":false,
 				};
+	if (currentToken == ''){
 		// map first request to session variable and store it in global session variable
 		request.pipe(outbound(options)).on('response',function(result){
 			currentToken = result.headers['set-cookie'].toString().split(' ')[0];
-			//console.log(currentToken.toString().split(' '));
 			console.log("mapped to : 1 " + currentToken);
 		}).pipe(response);
 	}
 	// map all requests to global session variable
 	else{
 		//currentToken = "cookie";
-		var headers = {'Cookie':currentToken};
-		options = {
-				url:baseHost+request.url,
-				"rejectUnauthorized":false,
-				headers:headers
-			};
+		options.headers = {'Cookie':currentToken};
 		console.log("mapped to : 2 " + currentToken);
 		forwardFriendly(request,response,options);
 	}
@@ -196,8 +181,6 @@ var mode1Handler = function(request,response){
  * handler --mode 2
  */
 var mode2Handler = function(request,response){
-	//currentToken = createCookie();
-	
 	var postData = '';
 	var options = {};
 	if (request.url.substr(0,10) == '/set_files'){
@@ -245,7 +228,6 @@ var mode2Handler = function(request,response){
 var defaultModeHandler = function(request,response){
 	var options                = {};
 	options.uri                = baseHost + request.url;
-	options.method             = request.method,
 	options.rejectUnauthorized = false,
 	forwardFriendly(request,response,options);
 };

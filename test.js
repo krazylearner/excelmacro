@@ -87,9 +87,14 @@ var isStringEmpty = function(string){
  * forwarder
  *
  */
-var forwardFriendly  = function(request ,response,options){
+var forwardFriendly  = function(request ,response,options,setToken){
+	setToken = (typeof setToken === 'undefined') ? false : setToken;
 	var proxy = request.pipe(outbound(options)).on('response', function(result) {
 		//result.headers['access-control-allow-origin'] = origin;
+		if (true == setToken){
+			currentToken = result.headers['set-cookie'].toString().split(' ')[0];
+			console.log("currentToken : " + currentToken);
+		}
 		proxy.pipe(response);
 	});
 
@@ -162,10 +167,7 @@ var mode1Handler = function(request,response){
 				};
 	if (currentToken == ''){
 		// map first request to session variable and store it in global session variable
-		request.pipe(outbound(options)).on('response',function(result){
-			currentToken = result.headers['set-cookie'].toString().split(' ')[0];
-			console.log("mapped to : 1 " + currentToken);
-		}).pipe(response);
+		forwardFriendly(request,response,options,true);
 	}
 	// map all requests to global session variable
 	else{
@@ -200,10 +202,8 @@ var mode2Handler = function(request,response){
 				postData.shareId = '' 
 				// preparing options object 
 				options.form = postData; // add post data to options object
-				typeof request.headers['Cookie'] == 'undefined' ? '' : delete request.headers['cookie'] ;
-				request.pipe(outbound(options)).on('response',function(result){
-					currentToken = result.headers['set-cookie'].toString().split(' ')[0];
-				}).pipe(response); // forward it to remote host
+				typeof request.headers['Cookie'] == 'undefined' ? '' : delete request.headers['Cookie'] ;
+				forwardFriendly(request,response,options,true);
 			}
 			else{
 				options.form    = postData;

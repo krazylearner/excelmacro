@@ -1,5 +1,5 @@
 # excelmacro
- This is a Visual Basic based excel macro project .Currnetly there are three major operations supported in this software .
+ This is a Visual Basic based excel macro project .Currnently there are three major operations supported in this software .
  
 ##Update Net Balance
  

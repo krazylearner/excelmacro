@@ -72,10 +72,7 @@ a746d25f&allowOfflineStorage=true&allowUploads=false&parent=0&data="%"5B"%"7B"%"
 
 ##Advance Usage
 
-Switches
---------------------
-
-Proxy server supports different switches which can be added to command line  while invoking proxy 
+Proxy server supports different switches which can be added to command line  while invoking proxy.These switches can be used to modify port ,remote host and modes.  
 
 
 #### Configure PORT  

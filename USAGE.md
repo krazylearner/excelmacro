@@ -101,8 +101,8 @@ To forward requests to hosts other then *https://folders.io* , use  switch **--f
 ````
 $ node forwardingProxy.js --forward=https://www.google.com
 ````
-Console Output 
-----------------
+####Console Output 
+
 ```````
 Proxy Server Running In Default Mode
 index file read: 1254 bytes
@@ -113,27 +113,21 @@ Forwarding requests to : https://www.google.com
 
 #### MODES
 
---mode 0|1|2
-When --mode argument is missing while invok
-ing proxy from command line  proxy server runs on default  mode .This can be changed 
-by usng --mode switch .Currently there are 3 extra w
- modes supported in proxy server besides default mode.
-```
-$node forwardingProxy.js --mode 0 
-```
- 
-MODE 0
-====================
-In this mode all requests are mapped to a single share ID and cookie (token), as set by the command line/hard code variable.eid
+Functionality of proxy server can be modified by including **--mode=0|1|2|3** switch.When --mode switch is missing while invoking proxy from command line  proxy server runs on default  mode .This can be changed by usng --mode switch .Currently there are 4 extra modes supported in proxy server besides default mode.
 
-Usage
-------------
+#####MODE 0
+In this mode all requests are mapped to a single share ID and cookie (token), as set by the command line/hard code variable.
+
+######Usage
+
+```
 $ node forwardingProxy.js --mode 0 --shareid=testshareid --token=sessioncookie
+```
 
-Example
--------------
+######Example
+
 `````
-$ node forwardingProxy.js --mode 0 --shareid="f3fe855d-7051-40e8-a88d-2bcfb23c5e96" --token="FIOSESSIONID=156AE139308A9629028D7E31EE1C0E43"
+$ node forwardingProxy.js --mode 0 --shareid="f3fe855d-7051-40e8-a88d-2bcfb23c5e96"--token="FIOSESSIONID=156AE139308A9629028D7E31EE1C0E43"
 `````
 $ curl "http://localhost:8090/set_files" --data "allo
 

@@ -15,29 +15,23 @@ npm install
 
 Proxy services
 ===================
-access to the folders.io API.
-You will see response objects dumped to your terminal as this is currently in DEBUG
 
-There is an advanced proxy server which can be used to forward client requests to remote hosts .The functionality of this proxy server can 
+There is an advanced proxy server which can be used to forward client requests to remote hosts .The functionality of this proxy server can be modified or configured with the use of various command line switches.
 
-be modified or configured with the use of various command line switches.
-
-Basic Usage
-====================
+##Basic Usage
 
 To access simple proxy services ,start the proxy server with no command line switches .All modules are written inside single nodejs file forwardingProxy.js.
-By default the proxy server will run on port 8090 and all requests will be forwarded to https://folders.io . Clients can query simple or complex requests and all
-necessary information including headers must be provided by the clients accessing the proxy .In this mode , the proxy server does nothing other then simply forwarding
-client requests to remote host . 
+By default the proxy server will run in default mode on port 8090 and all requests will be forwarded to https://folders.io . Clients can query simple or complex requests and all necessary information including headers must be provided by the clients accessing the proxy .In this mode , the proxy server does nothing other then simply forwarding client requests to remote host . 
 
-#### Start a simple proxy server  
+####Start a simple proxy server  
 
-```sh
-node forwardingProxy.js 
+
+```
+$ node forwardingProxy.js 
 ```
 
-Console Output 
-----------------
+####Console Output 
+
 ```
 Proxy Server Running In Default Mode
 index file read: 1254 bytes
@@ -46,11 +40,12 @@ Proxy listener engaged...
 Forwarding requests to : https://folders.io
 ```
 
-Client Usage
-----------------
+###Client Usage
 
 Requesting a simple page https://folders.io/press
-``sh
+
+
+```
 $ curl localhost:8090/press
 ```
 

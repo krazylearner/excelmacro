@@ -77,11 +77,7 @@ Proxy server supports different switches which can be added to command line  whi
 
 #### Configure PORT  
 
---listen = PORT 
-
-Start proxy server on different port
-
-To start proxy server on different port just include the switch --listen=port while invoking the proxy .For example to 
+To start proxy server on different port just include the switch **--listen=port** while invoking the proxy .For example to 
 
 start proxy server on port 9999 do this 
 
@@ -89,23 +85,19 @@ start proxy server on port 9999 do this
 $ node forwardingProxy.js --listen=9999
 ```
 
-started local server: http://localhost:9999
-Proxy listener engaged...
-Console Output 
-----------------
+####Console Output 
+
 ```
 Proxy Server Running In Default Mode
 index file read: 1254 bytes
-
+started local server: http://localhost:9999
+Proxy listener engaged...
 Forwarding requests to : https://folders.io
 ```
+
 #### Configure HOST 
 
---forward =HOSTURL 
-
-Proxy requests to other hosts
-
-To forward requests to hosts other then https://folders.io , use a switch --forward=hostname
+To forward requests to hosts other then *https://folders.io* , use  switch **--forward=hostname**
 ````
 $ node forwardingProxy.js --forward=https://www.google.com
 ````

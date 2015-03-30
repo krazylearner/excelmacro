@@ -145,57 +145,54 @@ $ curl "http://localhost:8090/get_share"
 ```
 
 Users can omit shareId from requests  and session headers and all their requests will be mapped to shareid and sessions as supplied in command line
-For requests which do not require sessions or shareids to complete successfully ,they will be simple forwarded upstream.
+For requests which do not require sessions or shareids to complete successfully ,they will be simply forwarded upstream.
 
 
-MODE 1
-=======================
-In this mode  all share IDs created are mapped  to a single cookie (session token).This cookie is automatically obtained by proxy on start up on first request which retains it until
-next startup
+####MODE 1
 
-Usage
-------------
-````
+In this mode  all share IDs created are mapped  to a single cookie (session token).This cookie is automatically obtained by proxy on start up on first request which retains it until next startup
+
+#####Usage
+
+```
 $ node forwardingProxy.js --mode 1 
-`````
+````
 
-Client Requests
+######Client Requests
 ````
 curl "http://localhost:8090/set_files"  --data "shareId=&allowOff
 lineStorage=true&allowUploads=false&parent=0&data="%"5B"%"5D" 
 ````
-Response
+######Response
 ````
-{"shareId":"2fb40e68-caeb-4130-804d-ea156a0be7f7","success":true,"shareName":"6S
-AUrn"}
+{"shareId":"2fb40e68-caeb-4130-804d-ea156a0be7f7","success":true,"shareName":"6SAUrn"}
 ````
 
+###### Another Client Requests
 
-Client Requests
-`````
-C:\Users\rahul>curl "http://localhost:8090/set_files" --data "shareId=330b1431-a
+```
+curl "http://localhost:8090/set_files" --data "shareId=330b1431-a
 177-484f-ad1b-85931e9b8dfe&allowOfflineStorage=true&allowUploads=false&parent=0&
 data="%"5B"%"7B"%"22fi"%"22"%"3A3"%"2C"%"22d"%"22"%"3Afalse"%"2C"%"22n"%"22"%"3A
 "%"22Adarsh.jpg"%"22"%"2C"%"22p"%"22"%"3Anull"%"2C"%"22s"%"22"%"3A38823"%"2C"%"2
 2l"%"22"%"3A"%"222015-03-10T12"%"3A08"%"3A32.000Z"%"22"%"2C"%"22t"%"22"%"3A"%"22
 image"%"2Fjpeg"%"22"%"2C"%"22c"%"22"%"3A"%"5B"%"5D"%"2C"%"22o"%"22"%"3Afalse"%"7
-D"%"5D" --compressed
-````
+D"%"5D"
+```
 
-Response
-````
-{"shareId":"2fb40e68-caeb-4130-804d-ea156a0be7f7","success":true,"shareName":"6S
-AUrn"}
-````
- As you can see same response is generated without passing any session headers because proxy is automatically adding the session before forwarding
-request 
+######Response
 
-MODE 2
-======================
+```
+{"shareId":"2fb40e68-caeb-4130-804d-ea156a0be7f7","success":true,"shareName":"6SAUrn"}
+```
+ As you can see same response is generated without passing any session headers because proxy is automatically adding the session before forwarding request 
+
+#### MODE 2
+
 In this mode all share IDs created are mapped to a token each time one is created and used.
 
-Usage
-------------
+#####Usage
+
 ````
 $ node forwardingProxy.js --mode 2 
 `````

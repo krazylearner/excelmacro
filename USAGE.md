@@ -212,7 +212,7 @@ $ node forwardingProxy.js --mode 3
 Server services
 =======================
 
-There is a standalone server which can be run in two modes.By default it runs in mode 0.
+There is a standalone server which can be run in two modes.By default it runs on port 8090 and  in mode 0.
 
 ##Basic Usage
 
@@ -226,9 +226,7 @@ Server supports two switches which can be added to command line  while invoking 
 
 #### Configure PORT  
 
-Start standalone server on different port.To start  server on different port just include the switch **--listen=port** while invoking the server .For example to 
-
-start  server on port 9999 do this 
+Start standalone server on different port.To start  server on different port just include the switch **--listen=port** while invoking the server .For example to start  server on port 9999 do this 
 
 ````
 $ node standaloneProxy.js --listen=9999
@@ -236,18 +234,16 @@ $ node standaloneProxy.js --listen=9999
 
 #### Configure MODE
 
---mode 0|1
+#####MODE 0
 
-
- 
-MODE 0
-====================
 In this mode server responds with test stubs .
 
-Usage
-------------
-$ node standaloneProxy.js --mode 0 
+######Usage
 
-MODE 1
-====================
+```
+$ node standaloneProxy.js --mode 0 
+```
+
+#####MODE 1
+
 Not implemented yet 

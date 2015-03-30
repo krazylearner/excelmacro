@@ -25,7 +25,7 @@
 
 1.Microsoft Excel 2003 or above
 
-2.The workbook running the software must contain atleast one sheet of financial data in particular format and one extra sheet names 'Balance Sheet' 
+2.The workbook running the software must contain atleast one sheet of financial data in particular format and one extra sheet named 'Balance Sheet' 
  
  
   

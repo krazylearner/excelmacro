@@ -42,17 +42,17 @@ Forwarding requests to : https://folders.io
 
 ###Client Usage
 
-Requesting a simple page https://folders.io/press
-
+####Requesting a simple page https://folders.io/press
 
 ```
 $ curl localhost:8090/press
 ```
 
-Response on client terminal
+####Ouput on client terminal
+
 Complete HTML snippet
 
-Adding file to existing share
+#### Adding file to existing share
 
 ```
 $ curl "http://localhost:8090/set_files"  -H "Cookie: FIOSESSIONID=
@@ -64,12 +64,13 @@ a746d25f&allowOfflineStorage=true&allowUploads=false&parent=0&data="%"5B"%"7B"%"
 22"%"2C"%"22c"%"22"%"3A"%"5B"%"5D"%"2C"%"22o"%"22"%"3Afalse"%"7D"%"5D"
 ```
 
-Response on client terminal
-{"shareId":"a4ccfea6-c4db-4530-8589-ef4fa746d25f","success":true,"shareName":"Zt
-YhK9"}
+####Ouput on client terminal
 
-Advance Usage
-====================
+```
+{"shareId":"a4ccfea6-c4db-4530-8589-ef4fa746d25f","success":true,"shareName":"ZtYhK9"}
+```
+
+##Advance Usage
 
 Switches
 --------------------

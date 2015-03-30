@@ -129,11 +129,9 @@ $ node forwardingProxy.js --mode 0 --shareid=testshareid --token=sessioncookie
 `````
 $ node forwardingProxy.js --mode 0 --shareid="f3fe855d-7051-40e8-a88d-2bcfb23c5e96"--token="FIOSESSIONID=156AE139308A9629028D7E31EE1C0E43"
 `````
-$ curl "http://localhost:8090/set_files" --data "allo
-
-Client Requests
-`````OfflineStorage=true&allowUploads=false&parent=0&data="%"5B"%"7B"%"22fi"%"22"%"3A1"%"2C"%"22d"%"22"%"3Afalse"%"2C"%"22n"%"22"%"3A"%"22Akansha.jpg"%"22"%"2C"%"22p"%"22"%"3Anull"%"2C"%"22s"%"22"%"3A27114"%"2C"%"22l"%"22"%"3A"%"222015-03-10T12"%"3A37"%"3A24.000Z"%"22"%"2C"%"22t"%"22"%"3A"%"22image"%"2Fjpeg"%"22"%"2C"%"22c"%"22"%"3A"%"5B"%"5D"%"2C"%"22o"%"22"%"3Afalse"%"7D"%"5D" -k
-`````
+```
+$ curl "http://localhost:8090/set_files" --data "alloOfflineStorage=true&allowUploads=false&parent=0&data="%"5B"%"7B"%"22fi"%"22"%"3A1"%"2C"%"22d"%"22"%"3Afalse"%"2C"%"22n"%"22"%"3A"%"22Akansha.jpg"%"22"%"2C"%"22p"%"22"%"3Anull"%"2C"%"22s"%"22"%"3A27114"%"2C"%"22l"%"22"%"3A"%"222015-03-10T12"%"3A37"%"3A24.000Z"%"22"%"2C"%"22t"%"22"%"3A"%"22image"%"2Fjpeg"%"22"%"2C"%"22c"%"22"%"3A"%"5B"%"5D"%"2C"%"22o"%"22"%"3Afalse"%"7D"%"5D" -k
+```
 
 `````
 $ curl "http://localhost:8090/get_share" 

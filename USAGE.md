@@ -197,9 +197,22 @@ In this mode all share IDs created are mapped to a token each time one is create
 $ node forwardingProxy.js --mode 2 
 `````
 
+##### MODE 3
+
+ In this mode  tokens are mapped based on whatever cookie the browser has set so the session id in the browser gets mapped to a session id on the server.
+
+######Usage
+
+````
+$ node forwardingProxy.js --mode 3
+`````
+
+
+
 Server services
 
 There is a standalone server which can be run in two modes.By default it runs in mode 0.
+
 
 
 Usage

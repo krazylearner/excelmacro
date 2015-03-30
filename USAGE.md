@@ -148,11 +148,11 @@ Users can omit shareId from requests  and session headers and all their requests
 For requests which do not require sessions or shareids to complete successfully ,they will be simply forwarded upstream.
 
 
-####MODE 1
+#####MODE 1
 
 In this mode  all share IDs created are mapped  to a single cookie (session token).This cookie is automatically obtained by proxy on start up on first request which retains it until next startup
 
-#####Usage
+######Usage
 
 ```
 $ node forwardingProxy.js --mode 1 
@@ -187,18 +187,17 @@ D"%"5D"
 ```
  As you can see same response is generated without passing any session headers because proxy is automatically adding the session before forwarding request 
 
-#### MODE 2
+##### MODE 2
 
 In this mode all share IDs created are mapped to a token each time one is created and used.
 
-#####Usage
+######Usage
 
 ````
 $ node forwardingProxy.js --mode 2 
 `````
 
 Server services
-===================
 
 There is a standalone server which can be run in two modes.By default it runs in mode 0.
 

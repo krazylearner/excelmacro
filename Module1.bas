@@ -332,10 +332,10 @@ Sub updateColumnNetBalance(wrkSheet As Worksheet)
 
 		While (firstRow <= lastRow)
 
-			Excel.Sheets(daySheet.name).Range("E" & firstRow).Formula = "=SUM(C" & firstRow & ")-SUM(D" & firstRow & ")"
-
+			varCredit = ThisWorkbook.Sheets(daySheet.name).Range("C" & firstRow).Value
+			VarDebit = ThisWorkbook.Sheets(daySheet.name).Range("D" & firstRow).Value
+			ThisWorkbook.Sheets(daySheet.name).Range("E" & firstRow).Value = varCredit - VarDebit
 			firstRow = firstRow + 1
-
 		Wend
 
 	End If

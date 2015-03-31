@@ -84,104 +84,96 @@ var defaultFriendly = function(request, response) {
  *
  */
 var eventFriendly = function(request, response) {
-						if(request.headers['accepts'] === 'text/event-stream') {
-		// NOTES: If we do not support text/event-stream, long-poll.
-		response.setHeader("Content-Type","text/event-stream; charset=utf-8");
-	}
-	// response.setHeader("Transfer-Encoding", "chunked");
-	response.setHeader("Cache-Control","no-cache");
-	response.setHeader("Connection","keep-alive");
-	response.writeHead(200);
-	response.write("retry: 10000\n\n");
+		if(request.headers['accepts'] === 'text/event-stream') {
+				// NOTES: If we do not support text/event-stream, long-poll.
+				response.setHeader("Content-Type","text/event-stream; charset=utf-8");
+		}
+		// response.setHeader("Transfer-Encoding", "chunked");
+		response.setHeader("Cache-Control","no-cache");
+		response.setHeader("Connection","keep-alive");
+		response.writeHead(200);
+		response.write("retry: 10000\n\n");
 };
 
 var mode0Handler = function(request,response){
+		var uri = request.url;
+		console.log("Requested URI", uri);
+		var stubShare = {};
+		if(uri.substr(0,5) == "/dir/") {
+     	// Test Stub
+	   			stubShare ={
+		   			"name":"local",
+		   			"fullPath":"/local",
+		   			"meta":{},
+		   			"uri":"#/http_folders.io_0:union//local",
+		   			"size":0,
+		   			"extension":"+folder",
+		   			"type":""
+		   		}
 	
-
-	var uri = request.url;
-	console.log("Requested URI", uri);
-	var stubShare = {};
-	if(uri.substr(0,5) == "/dir/") {
-     // Test Stub
-	   stubShare ={
-		   "name":"local",
-		   "fullPath":"/local",
-		   "meta":{},
-		   "uri":"#/http_folders.io_0:union//local",
-		   "size":0,
-		   "extension":"+folder",
-		   "type":""
-		   }
-	
-	}
-
-
-	else if(uri.substr(0,10) == "/set_files") {
-		// Test Stub
-		stubShare ={
-			"shareId":"testShareId",
-			"success":true,
-			"shareName":"testShare"
-			}
-	}
-	
-	else if(uri.substr(0,6) == '/file/'){
-		// FIXME: This must be BLOB output .
-	    stubShare ={
-			"file":"Test File Output"
-		};
-	}
-    else if (uri.substr(0,10) == '/get_share'){
-		// test Stub
-		stubShare = {
-			"gateway_id":"0",
-			"isProtected":false,
-			"success":true,
-			"onlyEmptyDirs":false,
-			"fileTree":[{
-				"d":false,
-				"s":74098,
-				"c":null,
-				"fi":1,
-				"p":"",
-				"n":"45 (1).jpg",
-				"o":false,
-				"l":"2015-02-12T13:08:06.000Z",
-				"dbid":"90cf2ce2-4238-43a3-a161-589c3bae7f38"}],
-			"online":true,
-			"uploadPermission":false,
-			"allowOfflineStorage":"true"
 		}
-	}
-	else if(request.url.substr(0,22) == "/set_upload_permission") {
+		else if(uri.substr(0,10) == "/set_files") {
+		// Test Stub
+				stubShare ={
+					"shareId":"testShareId",
+					"success":true,
+					"shareName":"testShare"
+				}
+		}
+		else if(uri.substr(0,6) == '/file/'){
+		// FIXME: This must be BLOB output .
+	    		stubShare ={
+					"file":"Test File Output"
+				};
+		}
+    	else if (uri.substr(0,10) == '/get_share'){
+		// test Stub
+				stubShare = {
+					"gateway_id":"0",
+					"isProtected":false,
+					"success":true,
+					"onlyEmptyDirs":false,
+					"fileTree":[{
+					"d":false,
+					"s":74098,
+					"c":null,
+					"fi":1,
+					"p":"",
+					"n":"image1.jpg",
+					"o":false,
+					"l":"2015-02-12T13:08:06.000Z",
+					"dbid":"90cf2ce2-4238-43a3-a161-589c3bae7f38"}],
+					"online":true,
+					"uploadPermission":false,
+					"allowOfflineStorage":"true"
+				}
+		}
+		else if(request.url.substr(0,22) == "/set_upload_permission") {
 			//Test Stub
-			stubShare = {"success":true} ;
-	}
-	else if(request.url.substr(0,7) == "/session") {
-		stubShare = "{}";
-	}
-	else if(request.url.substr(0,5) == "/json" || request.url.substr(0,12) == "/signal_poll") {
-		//eventFriendly(request, response);
-		stubShare = {"success":true,"signals":[{"data":{},"type":"KeepAlive"}]}
-		//return;
-	}
-	else {
-		// FIXME: Just a Placeholder 
-		stubShare = {"insert":"here"};
-		
-	}
+				stubShare = {"success":true} ;
+		}
+		else if(request.url.substr(0,7) == "/session") {
+				stubShare = "{}";
+		}
+		else if(request.url.substr(0,5) == "/json" || request.url.substr(0,12) == "/signal_poll") {
+				//eventFriendly(request, response);
+				stubShare = {"success":true,"signals":[{"data":{},"type":"KeepAlive"}]}
+		}
+		else {
+				// FIXME: Just a Placeholder 
+				stubShare = {"insert":"here"};
+		}
 
+		response.setHeader('Content-Type','text/html');
+		response.writeHead(200);
+		//send a stub response testshare
+		response.end(JSON.stringify(stubShare),function(){
+				console.log('Response Succesfully send');
+		});
 	
-	response.setHeader('Content-Type','text/html');
-	response.writeHead(200);
-	response.end(JSON.stringify(stubShare),function(){
-		console.log('Response Succesfully send');
-	});
+		return ;
 	
-	return ;
-	//send a stub response testshare
-	
-}
+};
 
 var mode1Handler = function(request,response){
 	

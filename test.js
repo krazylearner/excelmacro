@@ -28,9 +28,14 @@ var globalConfigure = function(request,response){
 							return  (argv);
 };
 
-// Core API proxy for folders.io
+/*
+ * Core API proxy for folders.io
+ * Be generous with CORS as this
+ * is primarily a developer library.
+ *
+ */
 
-// Be generous with CORS as this is primarily a developer library.
+
 var corsFriendly = function(response, origin) {
 	response.setHeader("Access-Control-Allow-Origin", origin);
 	response.setHeader("Access-Control-Allow-Credentials", "true");

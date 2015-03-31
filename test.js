@@ -22,13 +22,11 @@ var index = require('./util/watchfile');
 var port;
 
 var globalConfigure = function(request,response){
-var argv = cli(process.argv.slice(2));
-//command line arguments are contained in argv object
-//FIXME : code will break if --port=invalidvalue example string
-port =  ('listen' in argv) ? argv['listen'] :8090;
-return  (argv);
-
-}
+							var argv = cli(process.argv.slice(2));
+							//FIXME : code will break if --port=invalidvalue example string
+							port =  ('listen' in argv) ? argv['listen'] :8090;
+							return  (argv);
+};
 
 // Core API proxy for folders.io
 

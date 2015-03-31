@@ -20,12 +20,23 @@ var stream = require('event-stream');
 // Watch a file for changes to the local file, otherwise keep it in memory.
 var index = require('./util/watchfile');
 var port;
+var mode;
 
 var globalConfigure = function(request,response){
 		var argv = cli(process.argv.slice(2));
 		//FIXME : code will break if --port=invalidvalue example string
 		port =  ('listen' in argv) ? argv['listen'] :8090;
-		return  (argv);
+		mode = argv['mode']
+		switch (mode){
+ 			case 0:
+ 			case 1:
+ 				console.log("Server Running In Mode : " + mode);
+ 				break;
+			default:
+ 			console.log("Server Running In Default Mode");
+ 			argv['mode'] = 0;
+ 		}  
+		
 };
 
 /*
@@ -195,18 +206,7 @@ var mode1Handler = function(request,response){
 var RouteServer = function() {
 		//this.routeHandler = routeHandler;
 		var self = this;
-		var argv  = globalConfigure();
-	
- 		switch (argv['mode']){
- 			case 0:
- 			case 1:
- 			console.log("Server Running In Mode : " + argv['mode']);
- 			break;
- 			default:
- 			console.log("Server Running In Default Mode");
- 			argv['mode'] = 0;
- 		}  
-
+		
 		var simpleServer = function(request, response) {
 
 	//var currentSession = self.routeHandler.getCurrentSession();
@@ -237,7 +237,7 @@ var RouteServer = function() {
 	}
 
 
- switch (argv['mode']){
+ switch (mode){
  case 0:
  mode0Handler(request,response);
  break;
@@ -245,7 +245,7 @@ var RouteServer = function() {
  mode1Handler(request,response); 
  break;
  default:
- console.log("invalid mode");
+ mode0Handler(request,response);
  }
 	
 };
@@ -257,6 +257,7 @@ var StandaloneProxy= function() {
 		//this.routeHandler = routeHandler;
 		this.routeServer = new RouteServer(/*routeHandler*/);
 		var self = this;
+		globalConfigure();
 		// Load our trampoline, it's part of the proxy process.
 		index("static/index.html", function(err, data) {
 				if(err) {

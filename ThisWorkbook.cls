@@ -12,16 +12,15 @@ Attribute VB_Exposed = True
 
 Private Sub Workbook_Open()
 
-  Call Macro3
+  Call createEmptyBalanceSheet
 
 End Sub
 
 
-Sub Macro3()
+Sub createEmptyBalanceSheet()
 '
-' Macro3 Macro
+' Macro
 '
-
 '
 
   Dim sh As Worksheet, flg As Boolean

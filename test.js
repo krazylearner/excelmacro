@@ -22,10 +22,10 @@ var index = require('./util/watchfile');
 var port;
 
 var globalConfigure = function(request,response){
-							var argv = cli(process.argv.slice(2));
-							//FIXME : code will break if --port=invalidvalue example string
-							port =  ('listen' in argv) ? argv['listen'] :8090;
-							return  (argv);
+		var argv = cli(process.argv.slice(2));
+		//FIXME : code will break if --port=invalidvalue example string
+		port =  ('listen' in argv) ? argv['listen'] :8090;
+		return  (argv);
 };
 
 /*
@@ -34,50 +34,57 @@ var globalConfigure = function(request,response){
  * is primarily a developer library.
  *
  */
-
-
 var corsFriendly = function(response, origin) {
-	response.setHeader("Access-Control-Allow-Origin", origin);
-	response.setHeader("Access-Control-Allow-Credentials", "true");
-	response.setHeader("Access-Control-Allow-Headers",
+		response.setHeader("Access-Control-Allow-Origin", origin);
+		response.setHeader("Access-Control-Allow-Credentials", "true");
+		response.setHeader("Access-Control-Allow-Headers",
 		["x-file-name", "x-file-type", "x-file-size", "x-file-date",
 		"content-disposition", "content-type"].join(','));
-	response.setHeader("Access-Control-Allow-Methods", "HEAD,GET,POST");
-	response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
+		response.setHeader("Access-Control-Allow-Methods", "HEAD,GET,POST");
+		response.setHeader("Access-Control-Expose-Headers", "Content-Disposition");
 };
 
 // 'http://localhost:8000';
 
-
-
-
-
+/*
+ *
+ *
+ */
 var resumeFriendly = function(request, response, currentSession, currentShareName) {
-	var stubShare = {
-		"canUploadFiles":false,
-		"shareName":"GyB4Nd", "shareId":"3ba5c687-106c-4596-94db-45e9ad63278c",
-		"passwordRestricted":false,"shareGateway":"0","success":true,
-	};
-	if(true) {
-		stubShare.shareName = currentShareName; // endpoints[currentSession];
-		stubShare.shareId = currentSession;
-	}
-	response.setHeader("Content-Type", "application/json");
-	response.end(JSON.stringify(stubShare));
+		var stubShare = {
+				"canUploadFiles":false,
+				"shareName":"GyB4Nd", 
+				"shareId":"3ba5c687-106c-4596-94db-45e9ad63278c",
+				"passwordRestricted":false,
+				"shareGateway":"0",
+				"success":true,
+		};
+		if(true) {
+				stubShare.shareName = currentShareName; // endpoints[currentSession];
+				stubShare.shareId = currentSession;
+		}
+		response.setHeader("Content-Type", "application/json");
+		response.end(JSON.stringify(stubShare));
 };
 
-
-
+/*
+ *
+ *
+ */
 var defaultFriendly = function(request, response) {
-	index("static/index.html", function(err, data) {
+		index("static/index.html", function(err, data) {
 		response.setHeader("Content-Type", "text/html");
 		response.writeHead(200);
 		response.end(data);
-	});
+		});
 };
 
+/*
+ *
+ *
+ */
 var eventFriendly = function(request, response) {
-	if(request.headers['accepts'] === 'text/event-stream') {
+						if(request.headers['accepts'] === 'text/event-stream') {
 		// NOTES: If we do not support text/event-stream, long-poll.
 		response.setHeader("Content-Type","text/event-stream; charset=utf-8");
 	}
@@ -86,7 +93,7 @@ var eventFriendly = function(request, response) {
 	response.setHeader("Connection","keep-alive");
 	response.writeHead(200);
 	response.write("retry: 10000\n\n");
-}
+};
 
 var mode0Handler = function(request,response){
 	

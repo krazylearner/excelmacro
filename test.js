@@ -95,6 +95,10 @@ var eventFriendly = function(request, response) {
 		response.write("retry: 10000\n\n");
 };
 
+/*
+ *
+ *
+ */
 var mode0Handler = function(request,response){
 		var uri = request.url;
 		console.log("Requested URI", uri);
@@ -175,29 +179,35 @@ var mode0Handler = function(request,response){
 	
 };
 
+/*
+ *
+ *
+ */
 var mode1Handler = function(request,response){
-	
-	// Do more useful work.
-	
-	console.log("Placeholder :Do more useful work");
-}
+		// Do more useful work.
+		console.log("Placeholder :Do more useful work");
+};
 
+/*
+ *
+ *
+ */
 var RouteServer = function() {
-	//this.routeHandler = routeHandler;
-	var self = this;
-	var argv  = globalConfigure();
+		//this.routeHandler = routeHandler;
+		var self = this;
+		var argv  = globalConfigure();
 	
- switch (argv['mode']){
- case 0:
- case 1:
- console.log("Server Running In Mode : " + argv['mode']);
- break;
- default:
- console.log("Server Running In Default Mode");
- argv['mode'] = 0;
- }  
+ 		switch (argv['mode']){
+ 			case 0:
+ 			case 1:
+ 			console.log("Server Running In Mode : " + argv['mode']);
+ 			break;
+ 			default:
+ 			console.log("Server Running In Default Mode");
+ 			argv['mode'] = 0;
+ 		}  
 
-var simpleServer = function(request, response) {
+		var simpleServer = function(request, response) {
 
 	//var currentSession = self.routeHandler.getCurrentSession();
 	// currentToken
@@ -244,32 +254,25 @@ var simpleServer = function(request, response) {
 };
 
 var StandaloneProxy= function() {
-	
-	//this.routeHandler = routeHandler;
-	this.routeServer = new RouteServer(/*routeHandler*/);
-	var self = this;
-
-	// Load our trampoline, it's part of the proxy process.
-	index("static/index.html", function(err, data) {
-		if(err) {
-			//cb(null, err);
-			return;
-		}
-		console.log("index file read: " + data.length + " bytes");
-		
-		http.createServer(self.routeServer.simpleServer).listen(port, function() {
-			
-			//cb();
-			console.log("started local server: http://localhost:"+port);
-			console.log("Standalone server engaged...");
-			console.log("Serving Requests ");
+		//this.routeHandler = routeHandler;
+		this.routeServer = new RouteServer(/*routeHandler*/);
+		var self = this;
+		// Load our trampoline, it's part of the proxy process.
+		index("static/index.html", function(err, data) {
+				if(err) {
+						//cb(null, err);
+						return;
+				}
+				console.log("index file read: " + data.length + " bytes");
+				http.createServer(self.routeServer.simpleServer).listen(port, function() {
+						//cb();
+						console.log("started local server: http://localhost:"+port);
+						console.log("Standalone server engaged...");
+						console.log("Serving Requests ");
+				});
 		});
 
-
-
-		});
-
-}
+};
 
 //module.exports = StandaloneProxy;
 new StandaloneProxy();

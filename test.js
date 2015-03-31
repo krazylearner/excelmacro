@@ -8,20 +8,27 @@
  *
  */
 
-
+// Favored utility libraries.
 var http = require('http');
 var fs = require('fs');
 var cli = require('minimist');
-// NOTES: Getting more complicated; used for /json pubsub onion service.
-var url = require('url');
+var url = require('url'); // NOTES: Getting more complicated; used for /json pubsub onion service.
 var qs = require('querystring');
 var stream = require('event-stream');
+var index = require('./util/watchfile'); // Watch a file for changes to the local file, otherwise keep it in memory.
 
-// Watch a file for changes to the local file, otherwise keep it in memory.
-var index = require('./util/watchfile');
+/*
+* Global Variables 
+*
+*/
 var port;
 var mode;
 
+/*
+ * Command line arguments 
+ * handler
+ *
+ */
 var globalConfigure = function(request,response){
 		var argv = cli(process.argv.slice(2));
 		//FIXME : code will break if --port=invalidvalue example string
@@ -33,8 +40,7 @@ var globalConfigure = function(request,response){
  				console.log("Server Running In Mode : " + mode);
  				break;
 			default:
- 			console.log("Server Running In Default Mode");
- 			argv['mode'] = 0;
+				console.log("Server Running In Default Mode");
  		}  
 		
 };

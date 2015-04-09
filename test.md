@@ -141,7 +141,14 @@ var outbound = require('request')
 var fs = require('fs')
 
 var getFile = function(){
-	
+
+.
+
+
+
+
+.
+
 	var options = {}
 	var fileId   = 'a9c1f27f-f042-4606-901d-9785e0c2e819';
 	var endPoint = "https://folders.io/file/" + fileId 
@@ -164,17 +171,35 @@ getFile()
 
 ```
 
-How to use web sockets
---------------------------------
+folders.io event source
+-------------------------
 
+```
+/*
+ * Implementing client for 
+ * folders.io event source
+ */
+var EventSource = require('eventsource');
+
+var demoEventSource = function(){
+	
+	var sessionCookie = 'FIOSESSIONID=C876DF6E5CEFFF526EA508C3C403AABD;'	 
+	var shareId  = '32d935c3-be17-4323-9bfa-0f83b12ed7c0'	 
+	var endPoint = 'https://folders.io/json?' + shareId	
+	var headers =  {'Accept': 'text/event-stream','Cookie': sessionCookie}
+	var eventSourceInitDict = {rejectUnauthorized: false,headers:headers};	
+	
+	var es = new EventSource(endPoint,eventSourceInitDict );
+	
+	es.onmessage = function(e) {
+		console.log(e);
+	};
+	
+	es.onerror = function() {
+		console.log('ERROR!');
+	};
+};
+	
+```
 How to upload files to a remote share
 -----------------------------------
-
-
-
-
-
-
-
-
-

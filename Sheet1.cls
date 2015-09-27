@@ -1,12 +1,3 @@
-VERSION 1.0 CLASS
-BEGIN
-  MultiUse = -1  'True
-END
-Attribute VB_Name = "Sheet1"
-Attribute VB_GlobalNameSpace = False
-Attribute VB_Creatable = False
-Attribute VB_PredeclaredId = True
-Attribute VB_Exposed = True
 Dim varRowBalanceSheet As Integer
 Dim netBalance As Long
 Dim d As Object
@@ -439,7 +430,7 @@ While (firstRow <= lastRow)
     
     varCredit = daySheet.Range("C" & CStr(firstRow)).Value
     VarDebit = daySheet.Range("D" & CStr(firstRow)).Value
-    balanceSheet.Range("A" & CStr(varRowBalanceSheet)).Value = varDate
+    balanceSheet.Range("A" & CStr(varRowBalanceSheet)).Value = CDate(varDate)
     balanceSheet.Range("B" & CStr(varRowBalanceSheet)).Value = varCredit
     balanceSheet.Range("C" & CStr(varRowBalanceSheet)).Value = VarDebit
     balanceSheet.Range("D" & CStr(varRowBalanceSheet)).Value = varCredit - VarDebit
@@ -459,10 +450,9 @@ Sub Macro8()
 '
 
 '
-    Sheets("Balance Sheet").Select
-    Columns("A:A").Select
-    Selection.NumberFormat = "m/d/yyyy"
-    Range("D7").Select
+    'Sheets("Balance Sheet").Select
+    Sheets("Balance Sheet").Columns("A:A").NumberFormat = "m/d/yyyy"
+    Sheets("Balance Sheet").Range("D7").Select
 End Sub
 
 

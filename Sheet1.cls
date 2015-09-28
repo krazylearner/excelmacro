@@ -268,9 +268,11 @@ ThisWorkbook.Worksheets("Balance Sheet").Range("C" & CStr(varRowBalanceSheet + 1
 ThisWorkbook.Worksheets("Balance Sheet").Range("B1").FormulaR1C1 = UCase(clientName)
 ThisWorkbook.Worksheets("Balance Sheet").Range("B2").FormulaR1C1 = CStr(Format(startDate, "d MMM, yyyy")) & " To " & CStr(Format(endDate, "d MMM, yyyy"))
 
+Call Macro8
+
 Exit Sub
 
-Call Macro8
+
 
 dateError:
     MsgBox ("Error:Wrong input")
